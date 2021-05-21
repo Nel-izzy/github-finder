@@ -3,6 +3,7 @@ import axios from "axios"
 import "./App.css"
 import Navbar from "./components/Navbar"
 import Users from "./components/Users"
+import Search from "./components/Search"
 
 
 class App extends Component {
@@ -11,28 +12,52 @@ class App extends Component {
         super()
         this.state = {
             users: [],
-            loading: false
+            loading: false,
+            error: ""
         }
     }
 
-    async componentDidMount() {
-        console.log(process.env.REACT_APP_GITHUB_CLIENT_SECRET);
+    // async componentDidMount() {
+
+    //     this.setState({ loading: true })
+
+    //     const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
+
+    //     this.setState({ users: res.data, loading: false })
+    // }
+
+    searchUsers = async text => {
         this.setState({ loading: true })
 
-        const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
+        if(!text){
+            this.setState({loading: false, error: "Please enter a name!"})   
+        }
 
-        this.setState({ users: res.data, loading: false })
+        try {
+            const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
+
+            this.setState({ users: res.data.items, loading: false, error: ""})
+        } catch (error) {
+            console.log(error);
+        }
+
+        
+           
+        
+
+        
     }
 
 
     render() {
-        const { users, loading } = this.state
+        const { users, loading, error } = this.state
 
         return (
             <div>
                 <Navbar />
                 <div className="container">
-                    <Users users={users} loading={loading} />
+                    <Search searchUsers = {this.searchUsers}/>
+                    <Users users={users} loading={loading} error={error}/>
                 </div>
 
             </div>

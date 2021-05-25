@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import Spinner from "./Spinner.js"
 import UserItem from './UserItem'
 
-const Users = ({ loading, users, error }) => {
+const Users = ({ loading, users }) => {
 
     return (
         <div style={userStyle}>
-            {loading ? <Spinner /> : error ? <h1 className="text-warning">{error}</h1> : users.map(user => (
+            {loading ? <Spinner /> : users.map(user => (
                 <UserItem key={user.id} user={user} />
             ))}
         </div>

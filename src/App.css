@@ -298,6 +298,14 @@ img {
   border: #ccc solid 1px;
 }
 
+.alert-warning,
+.bg-warning,
+.badge-warning,
+.btn-warning {
+  background: var(--warning-color);
+  color: #fff;
+}
+
 .btn:hover {
   opacity: 0.8;
 }

@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import GithubContext from '../context/github/githubContext.js'
 
 import Spinner from "./Spinner.js"
 import UserItem from './UserItem'
 
-const Users = ({ loading, users }) => {
+const Users = () => {
+    const githubContext = useContext(GithubContext)
+
+    const { loading, users } = githubContext
 
     return (
         <div style={userStyle}>
@@ -19,11 +23,6 @@ const userStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gridColumnGap: "1rem"
-}
-
-Users.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    users: PropTypes.array.isRequired,
 }
 
 
